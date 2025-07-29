@@ -1,5 +1,4 @@
-import type { JSX } from "solid-js";
-import { For, Show } from "solid-js";
+import { For, Show, type JSX } from "solid-js";
 
 interface TableColumn<T> {
   key: keyof T;

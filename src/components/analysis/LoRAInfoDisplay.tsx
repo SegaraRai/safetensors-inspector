@@ -1,5 +1,4 @@
-import type { Component } from "solid-js";
-import { For, Show } from "solid-js";
+import { For, Show, type Component } from "solid-js";
 import type { LoRAInfo } from "../../core/types";
 import Badge from "../ui/Badge";
 import Card from "../ui/Card";
@@ -80,7 +79,7 @@ const LoRAInfoDisplay: Component<LoRAInfoDisplayProps> = (props) => {
             <h4 class="font-semibold text-sm text-base-content/70 mb-2">
               Trigger Words
             </h4>
-            <div class="flex flex-wrap gap-1">
+            <div class="flex flex-wrap gap-x-2 gap-y-1">
               <For each={props.loraInfo.trigger_words}>
                 {(word) => (
                   <Badge variant="success" size="sm">

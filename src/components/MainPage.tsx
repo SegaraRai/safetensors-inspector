@@ -1,5 +1,10 @@
-import type { Component } from "solid-js";
-import { createSignal, onCleanup, onMount, Show } from "solid-js";
+import {
+  createSignal,
+  onCleanup,
+  onMount,
+  Show,
+  type Component,
+} from "solid-js";
 import { analyzeSafetensors, parseHeader } from "../core/parse";
 import type { SafetensorsAnalysis } from "../core/types";
 import { SafetensorsAnalysisDisplay } from "./analysis";
@@ -77,29 +82,6 @@ const MainPage: Component = () => {
     }
   };
 
-  const handleDrop = (event: DragEvent) => {
-    event.preventDefault();
-    setIsDragOver(false);
-
-    const files = event.dataTransfer?.files;
-    if (files && files.length > 0) {
-      handleFile(files[0]);
-    }
-  };
-
-  const handleDragOver = (event: DragEvent) => {
-    event.preventDefault();
-    setIsDragOver(true);
-  };
-
-  const handleDragLeave = (event: DragEvent) => {
-    event.preventDefault();
-    // Only set dragOver to false if we're leaving the main container
-    if (!event.currentTarget?.contains(event.relatedTarget as Node)) {
-      setIsDragOver(false);
-    }
-  };
-
   const handleClick = () => {
     fileInputRef?.click();
   };
@@ -114,25 +96,67 @@ const MainPage: Component = () => {
   };
 
   onMount(() => {
-    // Prevent default drag behaviors on the entire document
-    const preventDefaults = (e: Event) => {
+    // Handle drag and drop on the entire document
+    const handleDocumentDragOver = (e: DragEvent) => {
       e.preventDefault();
-      e.stopPropagation();
+      setIsDragOver(true);
     };
 
-    ["dragenter", "dragover", "dragleave", "drop"].forEach((eventName) => {
-      document.addEventListener(eventName, preventDefaults, false);
-    });
+    const handleDocumentDragLeave = (e: DragEvent) => {
+      e.preventDefault();
+      // Only hide drag overlay if leaving the document entirely
+      if (e.clientX === 0 && e.clientY === 0) {
+        setIsDragOver(false);
+      }
+    };
+
+    const handleDocumentDrop = (e: DragEvent) => {
+      e.preventDefault();
+      setIsDragOver(false);
+
+      const files = e.dataTransfer?.files;
+      if (files && files.length > 0) {
+        handleFile(files[0]);
+      }
+    };
+
+    const handleDocumentDragEnter = (e: DragEvent) => {
+      e.preventDefault();
+      setIsDragOver(true);
+    };
+
+    // Add event listeners to document
+    document.addEventListener("dragenter", handleDocumentDragEnter);
+    document.addEventListener("dragover", handleDocumentDragOver);
+    document.addEventListener("dragleave", handleDocumentDragLeave);
+    document.addEventListener("drop", handleDocumentDrop);
 
     onCleanup(() => {
-      ["dragenter", "dragover", "dragleave", "drop"].forEach((eventName) => {
-        document.removeEventListener(eventName, preventDefaults, false);
-      });
+      document.removeEventListener("dragenter", handleDocumentDragEnter);
+      document.removeEventListener("dragover", handleDocumentDragOver);
+      document.removeEventListener("dragleave", handleDocumentDragLeave);
+      document.removeEventListener("drop", handleDocumentDrop);
     });
   });
 
   return (
-    <div class="min-h-screen bg-base-200">
+    <div class="min-h-screen bg-base-200 relative">
+      {/* Full-page drag overlay */}
+      <Show when={isDragOver() && !analysis()}>
+        <div class="fixed inset-0 z-50 bg-primary/10 backdrop-blur-sm border-4 border-dashed border-primary flex items-center justify-center">
+          <div class="bg-base-100 p-8 rounded-xl shadow-xl border border-primary/20">
+            <div class="text-center">
+              <div class="text-6xl mb-4">📁</div>
+              <h3 class="text-2xl font-bold text-primary mb-2">
+                Drop your file here
+              </h3>
+              <p class="text-base-content/60">
+                Release to analyze your .safetensors or .json file
+              </p>
+            </div>
+          </div>
+        </div>
+      </Show>
       {/* Header */}
       <div class="bg-base-100 shadow-sm border-b border-base-300">
         <div class="max-w-7xl mx-auto px-4 py-6">
@@ -246,9 +270,6 @@ const MainPage: Component = () => {
                 }
                 ${isProcessing() ? "pointer-events-none opacity-50" : ""}
               `}
-              onDrop={handleDrop}
-              onDragOver={handleDragOver}
-              onDragLeave={handleDragLeave}
               onClick={handleClick}
             >
               <input

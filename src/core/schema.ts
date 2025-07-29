@@ -89,7 +89,7 @@ export const zFileInput = z.object({
  */
 export const zURLInput = z.object({
   type: z.literal("url"),
-  url: z.string().url("Invalid URL format"),
+  url: z.string().url(),
 });
 
 /**

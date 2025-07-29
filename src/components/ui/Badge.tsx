@@ -9,7 +9,8 @@ interface BadgeProps {
     | "neutral"
     | "success"
     | "warning"
-    | "error";
+    | "error"
+    | "outline";
   size?: "xs" | "sm" | "md" | "lg";
   children: JSX.Element;
   class?: string;
@@ -32,6 +33,8 @@ const Badge: Component<BadgeProps> = (props) => {
         return "badge-warning";
       case "error":
         return "badge-error";
+      case "outline":
+        return "badge-outline";
       default:
         return "";
     }
@@ -51,7 +54,9 @@ const Badge: Component<BadgeProps> = (props) => {
   };
 
   return (
-    <div class={`badge ${variant()} ${size()} ${props.class || ""}`}>
+    <div
+      class={`badge whitespace-nowrap ${variant()} ${size()} ${props.class || ""}`}
+    >
       {props.children}
     </div>
   );

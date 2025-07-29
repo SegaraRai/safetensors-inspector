@@ -86,7 +86,9 @@ const TensorListTable: Component<TensorListTableProps> = (props) => {
       width: "20%",
       align: "center" as const,
       render: (value: any) => (
-        <span class="font-mono text-sm">{formatShape(value)}</span>
+        <span class="font-mono text-sm whitespace-nowrap">
+          {formatShape(value)}
+        </span>
       ),
     },
     {
@@ -95,7 +97,9 @@ const TensorListTable: Component<TensorListTableProps> = (props) => {
       width: "15%",
       align: "right" as const,
       render: (value: any) => (
-        <span class="font-mono text-sm">{formatParameters(value)}</span>
+        <span class="font-mono text-sm whitespace-nowrap">
+          {formatParameters(value)}
+        </span>
       ),
     },
     {
@@ -104,7 +108,9 @@ const TensorListTable: Component<TensorListTableProps> = (props) => {
       width: "12%",
       align: "right" as const,
       render: (value: any) => (
-        <span class="font-mono text-sm">{formatSize(value)}</span>
+        <span class="font-mono text-sm whitespace-nowrap">
+          {formatSize(value)}
+        </span>
       ),
     },
     {
@@ -113,7 +119,7 @@ const TensorListTable: Component<TensorListTableProps> = (props) => {
       width: "16%",
       align: "center" as const,
       render: (value: any) => (
-        <span class="font-mono text-xs text-base-content/60">
+        <span class="font-mono text-xs text-base-content/60 whitespace-nowrap">
           {value[0]}-{value[1]}
         </span>
       ),

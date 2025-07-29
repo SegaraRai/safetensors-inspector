@@ -5,6 +5,9 @@
 
 import type { RawMetadata, TensorDataType } from "./schema";
 
+// Re-export commonly used types from schema
+export type { RawMetadata, TensorDataType };
+
 /**
  * Model types that can be identified from safetensors files
  */

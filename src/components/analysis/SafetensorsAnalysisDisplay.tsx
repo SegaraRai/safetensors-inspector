@@ -1,5 +1,4 @@
-import type { Component } from "solid-js";
-import { For, Show } from "solid-js";
+import { For, Show, type Component } from "solid-js";
 import type { SafetensorsAnalysis } from "../../core/types";
 import MetadataViewer from "../metadata/MetadataViewer";
 import Badge from "../ui/Badge";

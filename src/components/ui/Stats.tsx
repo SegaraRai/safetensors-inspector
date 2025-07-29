@@ -1,5 +1,4 @@
-import type { Component, JSX } from "solid-js";
-import { For } from "solid-js";
+import { For, type Component, type JSX } from "solid-js";
 
 interface StatItem {
   title: string;

@@ -1,5 +1,4 @@
-import type { Component } from "solid-js";
-import { For } from "solid-js";
+import { For, type Component } from "solid-js";
 import type { FileStats } from "../../core/types";
 import Badge from "../ui/Badge";
 import Card from "../ui/Card";

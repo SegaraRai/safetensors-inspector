@@ -1,5 +1,4 @@
-import type { Component } from "solid-js";
-import { createSignal, For, Show } from "solid-js";
+import { createSignal, For, Show, type Component } from "solid-js";
 import type {
   ModelHashes,
   ModelSpecMetadata,
@@ -27,10 +26,6 @@ const MetadataViewer: Component<MetadataViewerProps> = (props) => {
     if (typeof value === "object") return JSON.stringify(value, null, 2);
     return String(value);
   };
-
-  const hasModelSpec = () => Object.keys(props.modelSpec).length > 0;
-  const hasTraining = () => Object.keys(props.training).length > 0;
-  const hasHashes = () => Object.keys(props.hashes).length > 0;
 
   const TabButton: Component<{
     tab: string;

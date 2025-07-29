@@ -1,0 +1,9 @@
+@import "tailwindcss";
+
+@plugin "@iconify/tailwind4";
+@plugin "daisyui" {
+  themes:
+    nord --default,
+    forest --prefersdark,
+    sunset;
+}

@@ -142,13 +142,17 @@ const MainPage: Component = () => {
   return (
     <div class="min-h-screen bg-base-200 relative">
       {/* Full-page drag overlay */}
-      <Show when={isDragOver() && !analysis()}>
+      <Show when={isDragOver()}>
         <div class="fixed inset-0 z-50 bg-primary/10 backdrop-blur-sm border-4 border-dashed border-primary flex items-center justify-center">
           <div class="bg-base-100 p-8 rounded-xl shadow-xl border border-primary/20">
             <div class="text-center">
-              <div class="text-6xl mb-4">📁</div>
+              <div class="mb-4">
+                <span class="size-24 icon-[fluent-emoji--file-folder]"></span>
+              </div>
               <h3 class="text-2xl font-bold text-primary mb-2">
-                Drop your file here
+                {analysis()
+                  ? "Drop to analyze new file"
+                  : "Drop your file here"}
               </h3>
               <p class="text-base-content/60">
                 Release to analyze your .safetensors or .json file
@@ -163,7 +167,9 @@ const MainPage: Component = () => {
           <div class="flex items-center justify-between">
             <div>
               <h1 class="text-3xl font-bold text-base-content">
-                Safetensors Inspector
+                <a href="/" class="link link-hover">
+                  Safetensors Inspector
+                </a>
               </h1>
               <p class="text-base-content/60 mt-1">
                 Analyze and explore safetensors model files
@@ -190,10 +196,25 @@ const MainPage: Component = () => {
               <div class="prose max-w-none">
                 <p class="text-base-content/80 mb-4">
                   Safetensors Inspector is a comprehensive tool for analyzing
-                  safetensors model files. It extracts and displays detailed
+                  safetensors model files. It extracts and displays detailedz
                   metadata, tensor information, and model specifications in an
                   easy-to-understand format.
                 </p>
+
+                {/* Privacy Notice */}
+                <div class="alert alert-success mb-6">
+                  <div>
+                    <h4 class="font-semibold">
+                      Complete Privacy &amp; Security
+                    </h4>
+                    <p class="text-sm mt-1">
+                      All file analysis is performed entirely in your browser.
+                      Your files never leave your device and are not uploaded to
+                      any server. Your data remains completely private and
+                      secure.
+                    </p>
+                  </div>
+                </div>
 
                 <div class="grid md:grid-cols-2 gap-6 mt-6">
                   <div>
@@ -299,11 +320,11 @@ const MainPage: Component = () => {
                   <div class="flex justify-center">
                     <div
                       class={`
-                      w-16 h-16 rounded-full flex items-center justify-center text-2xl transition-colors
+                      size-36 rounded-full flex items-center justify-center text-2xl transition-colors
                       ${isDragOver() ? "bg-primary text-primary-content" : "bg-base-300 text-base-content/60"}
                     `}
                     >
-                      📁
+                      <span class="size-22 icon-[fluent-emoji--file-folder]"></span>
                     </div>
                   </div>
 

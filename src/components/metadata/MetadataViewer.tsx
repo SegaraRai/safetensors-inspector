@@ -81,7 +81,7 @@ const MetadataViewer: Component<MetadataViewerProps> = (props) => {
   return (
     <Card title="Metadata" class={props.class} bordered shadow>
       <div class="space-y-4">
-        <div class="tabs tabs-bordered w-full">
+        <div class="tabs tabs-border w-full">
           <TabButton
             tab="modelspec"
             label="Model Spec"

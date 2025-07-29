@@ -140,7 +140,7 @@ const MainPage: Component = () => {
   });
 
   return (
-    <div class="min-h-screen bg-base-200 relative">
+    <div class="min-h-screen bg-base-200 relative grid grid-rows-[auto_1fr_auto]">
       {/* Full-page drag overlay */}
       <Show when={isDragOver()}>
         <div class="fixed inset-0 z-50 bg-primary/10 backdrop-blur-sm border-4 border-dashed border-primary flex items-center justify-center">
@@ -161,10 +161,11 @@ const MainPage: Component = () => {
           </div>
         </div>
       </Show>
+
       {/* Header */}
       <div class="bg-base-100 shadow-sm border-b border-base-300">
-        <div class="max-w-7xl mx-auto px-4 py-6">
-          <div class="flex items-center justify-between">
+        <div class="max-w-7xl w-full mx-auto px-4 py-6 overflow-hidden">
+          <div class="flex items-center justify-between gap-4">
             <div>
               <h1 class="text-3xl font-bold text-base-content">
                 <a href="/" class="link link-hover">
@@ -184,7 +185,7 @@ const MainPage: Component = () => {
         </div>
       </div>
 
-      <div class="max-w-7xl mx-auto px-4 py-8">
+      <div class="max-w-7xl w-full mx-auto px-4 py-8 overflow-hidden">
         <Show
           when={!analysis()}
           fallback={<SafetensorsAnalysisDisplay analysis={analysis()!} />}
@@ -196,13 +197,13 @@ const MainPage: Component = () => {
               <div class="prose max-w-none">
                 <p class="text-base-content/80 mb-4">
                   Safetensors Inspector is a comprehensive tool for analyzing
-                  safetensors model files. It extracts and displays detailedz
+                  safetensors model files. It extracts and displays detailed
                   metadata, tensor information, and model specifications in an
                   easy-to-understand format.
                 </p>
 
                 {/* Privacy Notice */}
-                <div class="alert alert-success mb-6">
+                <div class="alert alert-success alert-soft mb-6">
                   <div>
                     <h4 class="font-semibold">
                       Complete Privacy &amp; Security
@@ -224,31 +225,46 @@ const MainPage: Component = () => {
                     <ul class="space-y-2 text-sm">
                       <li class="flex items-center gap-2">
                         <Badge variant="success" size="xs">
-                          ✓
+                          <span
+                            role="none"
+                            class="icon-[famicons--checkmark]"
+                          ></span>
                         </Badge>
-                        Model type detection (LoRA, Checkpoint, VAE, etc.)
+                        Model type detection (Checkpoint, VAE, LoRA, etc.)
                       </li>
                       <li class="flex items-center gap-2">
                         <Badge variant="success" size="xs">
-                          ✓
+                          <span
+                            role="none"
+                            class="icon-[famicons--checkmark]"
+                          ></span>
                         </Badge>
                         LoRA-specific information extraction
                       </li>
                       <li class="flex items-center gap-2">
                         <Badge variant="success" size="xs">
-                          ✓
+                          <span
+                            role="none"
+                            class="icon-[famicons--checkmark]"
+                          ></span>
                         </Badge>
                         Training metadata and parameters
                       </li>
                       <li class="flex items-center gap-2">
                         <Badge variant="success" size="xs">
-                          ✓
+                          <span
+                            role="none"
+                            class="icon-[famicons--checkmark]"
+                          ></span>
                         </Badge>
                         Tensor analysis and statistics
                       </li>
                       <li class="flex items-center gap-2">
                         <Badge variant="success" size="xs">
-                          ✓
+                          <span
+                            role="none"
+                            class="icon-[famicons--checkmark]"
+                          ></span>
                         </Badge>
                         Model hashes and compatibility info
                       </li>
@@ -358,25 +374,44 @@ const MainPage: Component = () => {
             {/* Error Display */}
             <Show when={error()}>
               <div class="alert alert-error">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  class="stroke-current shrink-0 h-6 w-6"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
-                  />
-                </svg>
+                <span class="size-6 icon-[famicons--alert-circle-outline]"></span>
                 <span>{error()}</span>
               </div>
             </Show>
           </div>
         </Show>
       </div>
+
+      {/* Footer */}
+      <footer class="bg-base-100 border-t border-base-300">
+        <div class="max-w-7xl w-full mx-auto px-4 py-8 overflow-hidden">
+          <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+            <div class="text-center md:text-left">
+              <h3 class="font-semibold text-base-content mb-1">
+                Safetensors Inspector
+              </h3>
+              <p class="text-sm text-base-content/60">
+                Open source tool for analyzing safetensors model files
+              </p>
+            </div>
+
+            <div class="flex items-center gap-4">
+              <a
+                href="https://github.com/SegaraRai/safetensors-inspector"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="btn btn-outline btn-sm gap-2"
+              >
+                <span
+                  role="none"
+                  class="size-5 icon-[famicons--logo-github]"
+                ></span>
+                <span>View on GitHub</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 };

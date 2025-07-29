@@ -73,7 +73,7 @@ function Table<T extends Record<string, any>>(
                     fallback={
                       <div class="flex items-center justify-center gap-2">
                         <span class="loading loading-spinner loading-sm"></span>
-                        Loading...
+                        <span>Loading...</span>
                       </div>
                     }
                   >

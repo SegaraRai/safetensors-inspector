@@ -79,7 +79,7 @@ const LoRAInfoDisplay: Component<LoRAInfoDisplayProps> = (props) => {
             <h4 class="font-semibold text-sm text-base-content/70 mb-2">
               Trigger Words
             </h4>
-            <div class="flex flex-wrap gap-x-2 gap-y-1">
+            <div class="flex flex-wrap gap-2">
               <For each={props.loraInfo.trigger_words}>
                 {(word) => (
                   <Badge variant="success" size="sm">

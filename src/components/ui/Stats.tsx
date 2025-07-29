@@ -15,7 +15,7 @@ interface StatsProps {
 
 const Stats: Component<StatsProps> = (props) => {
   const classes = () => {
-    let base = "stats";
+    let base = "w-full stats";
     if (props.vertical) base += " stats-vertical";
     if (props.class) base += ` ${props.class}`;
     return base;

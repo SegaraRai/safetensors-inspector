@@ -115,11 +115,11 @@ const MetadataViewer: Component<MetadataViewerProps> = (props) => {
 
           <Show when={activeTab() === "raw"}>
             <div class="space-y-3">
-              <div class="flex items-center gap-2 mb-4">
+              <Show when={Object.keys(props.rawMetadata).length > 0}>
                 <Badge variant="neutral" size="sm">
                   {Object.keys(props.rawMetadata).length} fields
                 </Badge>
-              </div>
+              </Show>
               <MetadataSection data={props.rawMetadata} title="Raw" />
             </div>
           </Show>

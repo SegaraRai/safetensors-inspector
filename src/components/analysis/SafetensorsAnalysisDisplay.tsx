@@ -77,19 +77,17 @@ const SafetensorsAnalysisDisplay: Component<SafetensorsAnalysisDisplayProps> = (
         </div>
 
         <Show when={props.analysis.warnings.length > 0}>
-          <div class="mt-4 p-3 bg-warning/10 border border-warning/20 rounded-lg">
-            <div class="flex items-center gap-2 mb-2">
+          <div class="mt-4 alert alert-warning alert-soft">
+            <div class="grid grid-rows-[auto_auto] sm:grid-cols-[auto_1fr] gap-x-6 gap-y-2">
               <Badge variant="warning" size="sm">
                 Warnings
               </Badge>
+              <ul class="list-disc list-inside text-sm">
+                <For each={props.analysis.warnings}>
+                  {(warning) => <li>{warning}</li>}
+                </For>
+              </ul>
             </div>
-            <For each={props.analysis.warnings}>
-              {(warning) => (
-                <div class="text-sm text-warning-content/80 mb-1 last:mb-0">
-                  • {warning}
-                </div>
-              )}
-            </For>
           </div>
         </Show>
       </Card>
@@ -109,8 +107,8 @@ const SafetensorsAnalysisDisplay: Component<SafetensorsAnalysisDisplayProps> = (
             <div class="flex items-center justify-between flex-wrap gap-2">
               <div class="text-sm text-base-content/60">
                 {showAllTensors()
-                  ? `Showing all ${props.analysis.tensors.length} tensors`
-                  : `Showing ${displayedTensors().length} of ${props.analysis.tensors.length} tensors (Page ${currentPage()} of ${totalPages()})`}
+                  ? `Showing all ${props.analysis.tensors.length.toLocaleString()} tensors`
+                  : `Showing ${displayedTensors().length.toLocaleString()} of ${props.analysis.tensors.length.toLocaleString()} tensors (Page ${currentPage()} of ${totalPages()})`}
               </div>
 
               <div class="flex items-center gap-4">
@@ -131,7 +129,7 @@ const SafetensorsAnalysisDisplay: Component<SafetensorsAnalysisDisplayProps> = (
                       disabled={currentPage() === 1}
                       onClick={() => setCurrentPage(currentPage() - 1)}
                     >
-                      <span class="icon-[jam--chevron-left]"></span>
+                      <span class="size-3 icon-[famicons--chevron-back]"></span>
                     </button>
                     <span class="join-item btn btn-sm btn-active inline-flex items-center justify-center min-w-10 [font-feature-settings:'tnum'] pointer-events-none">
                       {currentPage()}
@@ -142,7 +140,7 @@ const SafetensorsAnalysisDisplay: Component<SafetensorsAnalysisDisplayProps> = (
                       disabled={currentPage() === totalPages()}
                       onClick={() => setCurrentPage(currentPage() + 1)}
                     >
-                      <span class="icon-[jam--chevron-right]"></span>
+                      <span class="size-3 icon-[famicons--chevron-forward]"></span>
                     </button>
                   </div>
                 </Show>
@@ -170,8 +168,13 @@ const SafetensorsAnalysisDisplay: Component<SafetensorsAnalysisDisplayProps> = (
                   >
                     Previous
                   </button>
-                  <span class="join-item btn btn-sm btn-active [font-feature-settings:'tnum'] pointer-events-none">
-                    Page {currentPage()} of {totalPages()}
+                  <span class="join-item btn btn-sm btn-active min-w-16 sm:min-w-32 [font-feature-settings:'tnum'] pointer-events-none">
+                    <span class="not-sm:hidden">
+                      Page {currentPage()} of {totalPages()}
+                    </span>
+                    <span class="sm:hidden">
+                      {currentPage()} / {totalPages()}
+                    </span>
                   </span>
                   <button
                     class="join-item btn btn-sm"

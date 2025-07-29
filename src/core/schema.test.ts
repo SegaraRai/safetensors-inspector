@@ -19,16 +19,20 @@ import {
 describe("zTensorDataType", () => {
   it("should accept valid tensor data types", () => {
     const validTypes = [
-      "F32",
+      "BOOL",
+      "U8",
+      "I8",
+      "F8_E5M2",
+      "F8_E4M3",
+      "I16",
+      "U16",
       "F16",
       "BF16",
-      "I8",
-      "I16",
       "I32",
-      "I64",
-      "U8",
-      "U16",
       "U32",
+      "F32",
+      "F64",
+      "I64",
       "U64",
     ];
 
@@ -39,7 +43,6 @@ describe("zTensorDataType", () => {
 
   it("should reject invalid tensor data types", () => {
     const invalidTypes = [
-      "F64",
       "INT8",
       "FLOAT32",
       "unknown",

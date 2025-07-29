@@ -37,12 +37,19 @@ const TensorListTable: Component<TensorListTableProps> = (props) => {
 
   const getDtypeVariant = (dtype: string) => {
     switch (dtype) {
+      case "BOOL":
+        return "error";
       case "F32":
         return "primary";
       case "F16":
         return "secondary";
       case "BF16":
         return "accent";
+      case "F64":
+        return "primary";
+      case "F8_E5M2":
+      case "F8_E4M3":
+        return "secondary";
       case "I8":
       case "I16":
       case "I32":

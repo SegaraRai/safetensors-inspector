@@ -153,8 +153,8 @@ function extractTriggerWords(metadata) {
 For each tensor, display:
 
 - **Name**: Full tensor path
-- **Shape**: Tensor dimensions
-- **dtype**: Data type (e.g., F32, F16, BF16)
+- **Shape**: Tensor dimensions  
+- **dtype**: Data type (e.g., BOOL, F32, F16, BF16, F64, F8_E5M2, F8_E4M3, I8, I16, I32, I64, U8, U16, U32, U64)
 - **Size**: Memory size in bytes
 - **Parameters**: Number of parameters (product of shape dimensions)
 

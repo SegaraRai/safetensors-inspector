@@ -9,16 +9,20 @@ import { z } from "zod";
  * Supported data types in safetensors format
  */
 export const zTensorDataType = z.enum([
-  "F32",
+  "BOOL",
+  "U8",
+  "I8",
+  "F8_E5M2",
+  "F8_E4M3",
+  "I16",
+  "U16",
   "F16",
   "BF16",
-  "I8",
-  "I16",
   "I32",
-  "I64",
-  "U8",
-  "U16",
   "U32",
+  "F32",
+  "F64",
+  "I64",
   "U64",
 ]);
 export type TensorDataType = z.infer<typeof zTensorDataType>;

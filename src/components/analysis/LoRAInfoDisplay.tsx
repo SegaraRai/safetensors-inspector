@@ -3,6 +3,7 @@ import type { LoRAInfo } from "../../core/types";
 import Badge from "../ui/Badge";
 import Card from "../ui/Card";
 import Stats from "../ui/Stats";
+import { getLoraTargetVariant } from "./variants";
 
 interface LoRAInfoDisplayProps {
   loraInfo: LoRAInfo;
@@ -10,19 +11,6 @@ interface LoRAInfoDisplayProps {
 }
 
 const LoRAInfoDisplay: Component<LoRAInfoDisplayProps> = (props) => {
-  const getTargetVariant = (target: string) => {
-    switch (target) {
-      case "UNet":
-        return "primary";
-      case "CLIP-L":
-        return "secondary";
-      case "CLIP-G":
-        return "accent";
-      default:
-        return "neutral";
-    }
-  };
-
   const statsItems = () => [
     {
       title: "Rank",
@@ -63,7 +51,7 @@ const LoRAInfoDisplay: Component<LoRAInfoDisplayProps> = (props) => {
             <div class="flex flex-wrap gap-2">
               <For each={props.loraInfo.target_components}>
                 {(target) => (
-                  <Badge variant={getTargetVariant(target)} size="md">
+                  <Badge variant={getLoraTargetVariant(target)} size="md">
                     {target}
                   </Badge>
                 )}

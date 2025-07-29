@@ -2,6 +2,8 @@ import type { Component } from "solid-js";
 import type { TensorInfo } from "../../core/types";
 import Badge from "../ui/Badge";
 import Table from "../ui/Table";
+import { formatFileSize, formatParameters, formatShape } from "./format";
+import { getDtypeVariant } from "./variants";
 
 interface TensorListTableProps {
   tensors: TensorInfo[];
@@ -9,62 +11,6 @@ interface TensorListTableProps {
 }
 
 const TensorListTable: Component<TensorListTableProps> = (props) => {
-  const formatSize = (bytes: number) => {
-    const units = ["B", "KB", "MB", "GB"];
-    let size = bytes;
-    let unitIndex = 0;
-
-    while (size >= 1024 && unitIndex < units.length - 1) {
-      size /= 1024;
-      unitIndex++;
-    }
-
-    return `${size.toFixed(unitIndex > 0 ? 1 : 0)} ${units[unitIndex]}`;
-  };
-
-  const formatShape = (shape: number[]) => {
-    return `[${shape.join(", ")}]`;
-  };
-
-  const formatParameters = (params: number) => {
-    if (params >= 1_000_000) {
-      return `${(params / 1_000_000).toFixed(1)}M`;
-    } else if (params >= 1_000) {
-      return `${(params / 1_000).toFixed(1)}K`;
-    }
-    return params.toString();
-  };
-
-  const getDtypeVariant = (dtype: string) => {
-    switch (dtype) {
-      case "BOOL":
-        return "error";
-      case "F32":
-        return "primary";
-      case "F16":
-        return "secondary";
-      case "BF16":
-        return "accent";
-      case "F64":
-        return "primary";
-      case "F8_E5M2":
-      case "F8_E4M3":
-        return "secondary";
-      case "I8":
-      case "I16":
-      case "I32":
-      case "I64":
-        return "warning";
-      case "U8":
-      case "U16":
-      case "U32":
-      case "U64":
-        return "success";
-      default:
-        return "neutral";
-    }
-  };
-
   const columns = [
     {
       key: "name" as keyof TensorInfo,
@@ -116,7 +62,7 @@ const TensorListTable: Component<TensorListTableProps> = (props) => {
       align: "right" as const,
       render: (value: any) => (
         <span class="font-mono text-sm whitespace-nowrap">
-          {formatSize(value)}
+          {formatFileSize(value)}
         </span>
       ),
     },

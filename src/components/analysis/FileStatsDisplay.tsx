@@ -3,6 +3,8 @@ import type { FileStats } from "../../core/types";
 import Badge from "../ui/Badge";
 import Card from "../ui/Card";
 import Stats from "../ui/Stats";
+import { formatFileSize, formatNumber } from "./format";
+import { getDtypeVariant } from "./variants";
 
 interface FileStatsDisplayProps {
   fileStats: FileStats;
@@ -10,30 +12,6 @@ interface FileStatsDisplayProps {
 }
 
 const FileStatsDisplay: Component<FileStatsDisplayProps> = (props) => {
-  const formatFileSize = (bytes: number) => {
-    const units = ["B", "KB", "MB", "GB", "TB"];
-    let size = bytes;
-    let unitIndex = 0;
-
-    while (size >= 1024 && unitIndex < units.length - 1) {
-      size /= 1024;
-      unitIndex++;
-    }
-
-    return `${size.toFixed(unitIndex > 0 ? 1 : 0)} ${units[unitIndex]}`;
-  };
-
-  const formatNumber = (num: number) => {
-    if (num >= 1_000_000_000) {
-      return `${(num / 1_000_000_000).toFixed(1)}B`;
-    } else if (num >= 1_000_000) {
-      return `${(num / 1_000_000).toFixed(1)}M`;
-    } else if (num >= 1_000) {
-      return `${(num / 1_000).toFixed(1)}K`;
-    }
-    return num.toLocaleString();
-  };
-
   const mainStats = () => [
     {
       title: "File Size",
@@ -56,36 +34,6 @@ const FileStatsDisplay: Component<FileStatsDisplayProps> = (props) => {
       desc: `${props.fileStats.total_parameters.toLocaleString()} total`,
     },
   ];
-
-  const getDtypeVariant = (dtype: string) => {
-    switch (dtype) {
-      case "BOOL":
-        return "error";
-      case "F32":
-        return "primary";
-      case "F16":
-        return "secondary";
-      case "BF16":
-        return "accent";
-      case "F64":
-        return "primary";
-      case "F8_E5M2":
-      case "F8_E4M3":
-        return "secondary";
-      case "I8":
-      case "I16":
-      case "I32":
-      case "I64":
-        return "warning";
-      case "U8":
-      case "U16":
-      case "U32":
-      case "U64":
-        return "success";
-      default:
-        return "neutral";
-    }
-  };
 
   return (
     <Card title="File Statistics" class={props.class} bordered shadow>

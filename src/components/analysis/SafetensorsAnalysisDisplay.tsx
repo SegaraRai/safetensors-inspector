@@ -10,6 +10,7 @@ import TensorListTable from "./TensorListTable";
 
 interface SafetensorsAnalysisDisplayProps {
   analysis: SafetensorsAnalysis;
+  fileName?: string;
   class?: string;
 }
 
@@ -57,8 +58,15 @@ const SafetensorsAnalysisDisplay: Component<SafetensorsAnalysisDisplayProps> = (
         <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
           <div class="flex items-center gap-4">
             <ModelTypeDisplay modelType={props.analysis.model_type} />
-            <div class="text-sm text-base-content/60">
-              Analyzed safetensors model
+            <div>
+              <Show when={props.fileName}>
+                <div class="font-semibold text-base-content">
+                  {props.fileName}
+                </div>
+              </Show>
+              <div class="text-sm text-base-content/60">
+                Analyzed safetensors model
+              </div>
             </div>
           </div>
 

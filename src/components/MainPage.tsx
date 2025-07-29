@@ -1,4 +1,5 @@
 import {
+  createEffect,
   createSignal,
   onCleanup,
   onMount,
@@ -25,6 +26,16 @@ const MainPage: Component = () => {
   const [fileName, setFileName] = createSignal<string>("");
 
   let fileInputRef: HTMLInputElement | undefined;
+
+  // Update page title based on file name
+  createEffect(() => {
+    const name = fileName();
+    if (name) {
+      document.title = `${name} - Safetensors Inspector`;
+    } else {
+      document.title = "Safetensors Inspector";
+    }
+  });
 
   const handleFile = async (file: File) => {
     if (!file) return;
@@ -207,7 +218,10 @@ const MainPage: Component = () => {
           fallback={
             <Show when={analysis()} keyed>
               {(analysisData) => (
-                <SafetensorsAnalysisDisplay analysis={analysisData} />
+                <SafetensorsAnalysisDisplay
+                  analysis={analysisData}
+                  fileName={fileName()}
+                />
               )}
             </Show>
           }

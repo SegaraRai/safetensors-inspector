@@ -16,12 +16,12 @@ const LoRAInfoDisplay: Component<LoRAInfoDisplayProps> = (props) => {
   const statsItems = () => [
     {
       title: "Rank",
-      value: props.loraInfo.rank?.toString() || "N/A",
+      value: props.loraInfo.rank?.toLocaleString() || "N/A",
       desc: "Network dimension",
     },
     {
       title: "Alpha",
-      value: props.loraInfo.alpha?.toString() || "N/A",
+      value: props.loraInfo.alpha?.toLocaleString() || "N/A",
       desc: "Network alpha value",
     },
     {

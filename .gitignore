@@ -25,3 +25,5 @@ pnpm-debug.log*
 
 *.ps1
 example_models/
+
+.claude/*.local.json

@@ -1,5 +1,20 @@
 ---
 import "../global.css";
+
+interface Props {
+  title?: string;
+  description?: string;
+  socialImage?: string;
+}
+
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const {
+  title = "Safetensors Inspector",
+  description = "Analyze and inspect .safetensors model files directly in your browser. View metadata, tensors, and model details for AI/ML models.",
+  socialImage = "/preview-1200x600.png",
+} = Astro.props;
+
+const socialImageURL = new URL(socialImage, Astro.site);
 ---
 
 <!doctype html>
@@ -8,7 +23,59 @@ import "../global.css";
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <title>Safetensors Inspector</title>
+
+    <!-- Primary Meta Tags -->
+    <title>{title}</title>
+    <meta name="title" content={title} />
+    <meta name="description" content={description} />
+    <meta
+      name="keywords"
+      content="safetensors, model inspector, AI models, machine learning, tensor analysis, model viewer, safetensors viewer, neural network, deep learning"
+    />
+    <meta name="author" content="Safetensors Inspector" />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href={canonicalURL} />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={socialImageURL} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="600" />
+
+    <!-- X/Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content={canonicalURL} />
+    <meta property="twitter:title" content={title} />
+    <meta property="twitter:description" content={description} />
+    <meta property="twitter:image" content={socialImageURL} />
+
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "Safetensors Inspector",
+        "description": "Analyze and inspect .safetensors model files directly in your browser. View metadata, tensors, and model details for AI/ML models.",
+        "url": "https://safetensors-inspector.roundtrip.dev",
+        "applicationCategory": "DeveloperApplication",
+        "operatingSystem": "Web",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        },
+        "featureList": [
+          "View safetensors model metadata",
+          "Analyze tensor shapes and types",
+          "Inspect model architecture",
+          "Browser-based analysis",
+          "No installation required"
+        ]
+      }
+    </script>
   </head>
   <body>
     <slot />

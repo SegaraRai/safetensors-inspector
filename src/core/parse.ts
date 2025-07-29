@@ -351,10 +351,17 @@ export function calculateTensorStats(
     totalParameters += params;
   }
 
+  // Sort data_types by usage count in descending order
+  const sortedDataTypes = Array.from(dataTypes).sort((a, b) => {
+    const countA = dtypeDistribution[a] || 0;
+    const countB = dtypeDistribution[b] || 0;
+    return countB - countA;
+  });
+
   return {
     tensor_count: tensors.length,
     total_parameters: totalParameters,
-    data_types: Array.from(dataTypes),
+    data_types: sortedDataTypes,
     dtype_distribution: dtypeDistribution,
   };
 }

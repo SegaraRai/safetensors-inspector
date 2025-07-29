@@ -1,5 +1,6 @@
 {
-  "name": "",
+  "name": "safetensors-inspector",
+  "private": true,
   "type": "module",
   "version": "0.0.1",
   "scripts": {
@@ -8,7 +9,8 @@
     "preview": "astro preview",
     "astro": "astro",
     "check": "astro check",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "test": "vitest"
   },
   "dependencies": {
     "zod": "^4.0.11"

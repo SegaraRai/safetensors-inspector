@@ -301,6 +301,80 @@ describe("calculateTensorStats", () => {
       F16: 1,
     });
   });
+
+  it("should sort data_types by usage count in descending order", () => {
+    const tensors = [
+      {
+        name: "tensor1",
+        dtype: "F32" as const,
+        shape: [10],
+        data_offsets: [0, 40] as [number, number],
+      },
+      {
+        name: "tensor2",
+        dtype: "F16" as const,
+        shape: [10],
+        data_offsets: [40, 60] as [number, number],
+      },
+      {
+        name: "tensor3",
+        dtype: "F16" as const,
+        shape: [10],
+        data_offsets: [60, 80] as [number, number],
+      },
+      {
+        name: "tensor4",
+        dtype: "F16" as const,
+        shape: [10],
+        data_offsets: [80, 100] as [number, number],
+      },
+      {
+        name: "tensor5",
+        dtype: "BF16" as const,
+        shape: [10],
+        data_offsets: [100, 120] as [number, number],
+      },
+      {
+        name: "tensor6",
+        dtype: "BF16" as const,
+        shape: [10],
+        data_offsets: [120, 140] as [number, number],
+      },
+    ];
+
+    const stats = calculateTensorStats(tensors);
+
+    // F16 appears 3 times, BF16 appears 2 times, F32 appears 1 time
+    expect(stats.data_types).toEqual(["F16", "BF16", "F32"]);
+    expect(stats.dtype_distribution).toEqual({
+      F16: 3,
+      BF16: 2,
+      F32: 1,
+    });
+  });
+
+  it("should handle empty tensor list", () => {
+    const stats = calculateTensorStats([]);
+
+    expect(stats.tensor_count).toBe(0);
+    expect(stats.total_parameters).toBe(0);
+    expect(stats.data_types).toEqual([]);
+    expect(stats.dtype_distribution).toEqual({});
+  });
+
+  it("should handle scalar tensors (empty shape)", () => {
+    const tensors = [
+      {
+        name: "scalar",
+        dtype: "F32" as const,
+        shape: [],
+        data_offsets: [0, 4] as [number, number],
+      },
+    ];
+
+    const stats = calculateTensorStats(tensors);
+    expect(stats.total_parameters).toBe(1);
+  });
 });
 
 describe("analyzeSafetensors", () => {

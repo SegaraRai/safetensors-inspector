@@ -6,7 +6,8 @@
       "Bash(npx tsc:*)",
       "Bash(npx vitest run:*)",
       "Bash(mkdir:*)",
-      "Bash(npm run check:*)"
+      "Bash(npm run check:*)",
+      "Bash(touch:*)"
     ],
     "deny": []
   }

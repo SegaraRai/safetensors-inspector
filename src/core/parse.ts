@@ -208,7 +208,7 @@ export function extractLoRATargets(tensorNames: string[]): LoRATarget[] {
  */
 export function extractTriggerWords(
   tagFrequency: string | undefined,
-  maxWords: number = 20,
+  maxWords?: number,
 ): string[] {
   if (!tagFrequency) return [];
 
@@ -226,7 +226,7 @@ export function extractTriggerWords(
     // Sort by frequency and return top words
     return Object.entries(allTags)
       .sort(([, a], [, b]) => b - a)
-      .slice(0, maxWords)
+      .slice(0, maxWords ?? Infinity)
       .map(([tag]) => tag);
   } catch {
     return [];

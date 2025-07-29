@@ -68,9 +68,7 @@ const MainPage: Component = () => {
             size: JSON.stringify(jsonData).length,
             data: jsonData,
           };
-          const analysisResult = analyzeSafetensors(mockHeader, file.size, {
-            max_trigger_words: 20,
-          });
+          const analysisResult = analyzeSafetensors(mockHeader, file.size);
           setAnalysis(analysisResult);
         } else {
           throw new Error("Invalid JSON structure");
@@ -87,9 +85,7 @@ const MainPage: Component = () => {
 
         const headerBuffer = await readHeaderStreaming(readFile);
         const header = parseHeader(headerBuffer);
-        const analysisResult = analyzeSafetensors(header, file.size, {
-          max_trigger_words: 20,
-        });
+        const analysisResult = analyzeSafetensors(header, file.size);
         setAnalysis(analysisResult);
       }
     } catch (err: any) {

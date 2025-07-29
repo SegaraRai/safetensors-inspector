@@ -5,6 +5,8 @@ import Card from "../ui/Card";
 import Stats from "../ui/Stats";
 import { getLoraTargetVariant } from "./variants";
 
+const MAX_TRIGGER_WORDS = 30;
+
 interface LoRAInfoDisplayProps {
   loraInfo: LoRAInfo;
   class?: string;
@@ -68,13 +70,22 @@ const LoRAInfoDisplay: Component<LoRAInfoDisplayProps> = (props) => {
               Trigger Words
             </h4>
             <div class="flex flex-wrap gap-2">
-              <For each={props.loraInfo.trigger_words}>
+              <For
+                each={props.loraInfo.trigger_words.slice(0, MAX_TRIGGER_WORDS)}
+              >
                 {(word) => (
                   <Badge variant="success" size="sm">
                     {word}
                   </Badge>
                 )}
               </For>
+              <Show
+                when={props.loraInfo.trigger_words.length > MAX_TRIGGER_WORDS}
+              >
+                <Badge variant="warning" size="sm">
+                  {`+${(props.loraInfo.trigger_words.length - MAX_TRIGGER_WORDS).toLocaleString()} more`}
+                </Badge>
+              </Show>
             </div>
           </div>
         </Show>

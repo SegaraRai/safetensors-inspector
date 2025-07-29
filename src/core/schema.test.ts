@@ -42,14 +42,7 @@ describe("zTensorDataType", () => {
   });
 
   it("should reject invalid tensor data types", () => {
-    const invalidTypes = [
-      "INT8",
-      "FLOAT32",
-      "unknown",
-      "",
-      null,
-      undefined,
-    ];
+    const invalidTypes = ["INT8", "FLOAT32", "unknown", "", null, undefined];
 
     for (const type of invalidTypes) {
       expect(() => zTensorDataType.parse(type)).toThrow();

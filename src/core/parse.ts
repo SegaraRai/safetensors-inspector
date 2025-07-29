@@ -32,6 +32,36 @@ const HEADER_SIZE_BYTES = 8;
 const MAX_HEADER_SIZE = 100 * 1024 * 1024; // 100MB limit
 
 /**
+ * Read function type for streaming reads
+ */
+export type ReadFunction = (
+  offset: number,
+  size: number,
+) => Promise<ArrayBuffer>;
+
+/**
+ * Read safetensors header using streaming reads
+ */
+export async function readHeaderStreaming(
+  read: ReadFunction,
+): Promise<ArrayBuffer> {
+  // First read the header size (8 bytes)
+  const headerSizeBuffer = await read(0, HEADER_SIZE_BYTES);
+  const headerSize = readHeaderSize(headerSizeBuffer);
+
+  // Then read the actual header data
+  const headerData = await read(HEADER_SIZE_BYTES, headerSize);
+
+  // Combine the header size and header data into a single ArrayBuffer
+  const result = new ArrayBuffer(HEADER_SIZE_BYTES + headerSize);
+  const resultView = new Uint8Array(result);
+  resultView.set(new Uint8Array(headerSizeBuffer), 0);
+  resultView.set(new Uint8Array(headerData), HEADER_SIZE_BYTES);
+
+  return result;
+}
+
+/**
  * Read header size from buffer
  */
 export function readHeaderSize(buffer: ArrayBuffer): number {
@@ -178,7 +208,7 @@ export function extractLoRATargets(tensorNames: string[]): LoRATarget[] {
  */
 export function extractTriggerWords(
   tagFrequency: string | undefined,
-  maxWords: number = 5,
+  maxWords: number = 20,
 ): string[] {
   if (!tagFrequency) return [];
 

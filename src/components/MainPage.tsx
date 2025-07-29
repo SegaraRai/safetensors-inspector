@@ -5,7 +5,11 @@ import {
   Show,
   type Component,
 } from "solid-js";
-import { analyzeSafetensors, parseHeader } from "../core/parse";
+import {
+  analyzeSafetensors,
+  parseHeader,
+  readHeaderStreaming,
+} from "../core/parse";
 import type { SafetensorsAnalysis } from "../core/types";
 import { SafetensorsAnalysisDisplay } from "./analysis";
 import Badge from "./ui/Badge";
@@ -53,16 +57,28 @@ const MainPage: Component = () => {
             size: JSON.stringify(jsonData).length,
             data: jsonData,
           };
-          const analysisResult = analyzeSafetensors(mockHeader, file.size);
+          const analysisResult = analyzeSafetensors(mockHeader, file.size, {
+            max_trigger_words: 20,
+          });
           setAnalysis(analysisResult);
         } else {
           throw new Error("Invalid JSON structure");
         }
       } else {
-        // Handle .safetensors file
-        const arrayBuffer = await file.arrayBuffer();
-        const header = parseHeader(arrayBuffer);
-        const analysisResult = analyzeSafetensors(header, file.size);
+        // Handle .safetensors file using blob slicing
+        const readFile = async (
+          offset: number,
+          size: number,
+        ): Promise<ArrayBuffer> => {
+          const slice = file.slice(offset, offset + size);
+          return await slice.arrayBuffer();
+        };
+
+        const headerBuffer = await readHeaderStreaming(readFile);
+        const header = parseHeader(headerBuffer);
+        const analysisResult = analyzeSafetensors(header, file.size, {
+          max_trigger_words: 20,
+        });
         setAnalysis(analysisResult);
       }
     } catch (err: any) {
@@ -188,7 +204,13 @@ const MainPage: Component = () => {
       <div class="max-w-7xl w-full mx-auto px-4 py-8 overflow-hidden">
         <Show
           when={!analysis()}
-          fallback={<SafetensorsAnalysisDisplay analysis={analysis()!} />}
+          fallback={
+            <Show when={analysis()} keyed>
+              {(analysisData) => (
+                <SafetensorsAnalysisDisplay analysis={analysisData} />
+              )}
+            </Show>
+          }
         >
           {/* File Upload Section */}
           <div class="space-y-8">
